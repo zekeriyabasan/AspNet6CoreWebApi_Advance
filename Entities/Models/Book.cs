@@ -1,4 +1,4 @@
-﻿namespace BookApi.Models
+﻿namespace Entities.Models
 {
     public class Book
     {

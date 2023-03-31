@@ -1,5 +1,5 @@
-﻿using BookApi.Models;
-using BookApi.Repositories.Config;
+﻿using BookApi.Repositories.Config;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookApi.Repositories
