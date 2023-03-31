@@ -1,8 +1,8 @@
-﻿using BookApi.Repositories;
-using Entities.Models;
+﻿using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Repositories.EFCore;
 
 namespace BookApi.Controllers
 {
@@ -10,9 +10,9 @@ namespace BookApi.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly RepositoryContext _context;
 
-        public BooksController(AppDbContext context)
+        public BooksController(RepositoryContext context)
         {
             _context = context;
         }
