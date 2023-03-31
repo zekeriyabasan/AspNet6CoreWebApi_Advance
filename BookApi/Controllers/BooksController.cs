@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Repositories.Contracts;
 using Repositories.EFCore;
 
 namespace BookApi.Controllers
@@ -10,24 +11,24 @@ namespace BookApi.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly RepositoryContext _context;
+        IRepositoryManager _manager;
 
-        public BooksController(RepositoryContext context)
+        public BooksController(IRepositoryManager manager)
         {
-            _context = context;
+            _manager = manager;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var books = _context.Books.ToList();
+            var books = _manager.Book.GetAllBook(false);
             return Ok(books);
         }
 
         [HttpGet("{id:int}")]
         public IActionResult GetById([FromRoute] int id)
         {
-            var book = _context.Books.Find(id);
+            var book = _manager.Book.GetABook(id,false);
             if (book is not null)
             {
                 return Ok(book);
@@ -42,23 +43,23 @@ namespace BookApi.Controllers
             if (book is null)
                 return BadRequest();
 
-            _context.Books.Add(book);
-            _context.SaveChanges();
+            _manager.Book.CreateABook(book);
+            _manager.Save();
             return StatusCode(201, book);
         }
 
         [HttpPut("{id:int}")]
         public IActionResult Update([FromBody] Book book, [FromRoute(Name = "id")] int id)
         {
-            var isExist = _context.Books.Any(x => x.Id == id);
+            var exist = _manager.Book.GetABook(id,true); // güncellerken izlemesi gerek trackChanges = true
 
             if (id != book.Id)
                 return BadRequest("not matched id!");
 
-            if (isExist)
+            if (exist!=null)
             {
-                _context.Entry(book).State = EntityState.Modified;
-                _context.SaveChanges();
+                _manager.Book.UpdateABook(book);
+                _manager.Save();
 
                 return Ok(book);
             }
@@ -68,11 +69,11 @@ namespace BookApi.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult DeleteById([FromRoute(Name = "id")] int id)
         {
-            var book = _context.Books.Find(id);
+            var book = _manager.Book.GetABook(id, false);
             if (book != null)
             {
-                _context.Books.Remove(book);
-                _context.SaveChanges();
+                _manager.Book.DeleteABook(book);
+                _manager.Save();
                 return NoContent();
             }
             return NotFound("Not find book!");
@@ -82,11 +83,12 @@ namespace BookApi.Controllers
         [HttpPatch("{id:int}")]
         public IActionResult Patch([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<Book> bookPatch)
         {
-            var entity = _context.Books.Find(id);
+            var entity = _manager.Book.GetABook(id, true);
             if (entity is not null)
             {
                 bookPatch.ApplyTo(entity);
-                _context.SaveChanges();
+                _manager.Book.Update(entity);
+                _manager.Save();
                 return NoContent();
             }
             return NotFound("not find book!");

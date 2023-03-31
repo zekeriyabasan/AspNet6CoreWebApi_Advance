@@ -11,9 +11,10 @@ builder.Services.AddControllers().AddNewtonsoftJson() ;
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// EXTENSIONS
 //DB context registration IOC = inversion of control (kontrol ün tersine çevrilmesi)  // IOC e DbContext kaydýný yaptýk
 builder.Services.ConfigureSqlContext(builder.Configuration);
-
+builder.Services.ConfigureRepositoryManager();
 
 
 var app = builder.Build();

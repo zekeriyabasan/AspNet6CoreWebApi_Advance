@@ -18,7 +18,7 @@ namespace Repositories.EFCore
 
         public void DeleteABook(Book entity)=> Delete(entity);
 
-        public IQueryable<Book> GetABook(int id, bool trackChanges) => FindByCondition(b => b.Id == id, trackChanges).OrderBy(b=>b.Id);
+        public Book GetABook(int id, bool trackChanges) => FindByCondition(b => b.Id == id, trackChanges).SingleOrDefault();
 
         public IQueryable<Book> GetAllBook(bool trackChanges) => FindAll(trackChanges);
 
