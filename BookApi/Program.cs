@@ -1,3 +1,4 @@
+using BookApi.Extentions;
 using Microsoft.EntityFrameworkCore;
 using Repositories.EFCore;
 
@@ -10,8 +11,9 @@ builder.Services.AddControllers().AddNewtonsoftJson() ;
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//DB context registration IOC = inversion of control (kontrol ün tersine çevrilmesi)
-builder.Services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));  // IOC e DbContext kaydýný yaptýk
+//DB context registration IOC = inversion of control (kontrol ün tersine çevrilmesi)  // IOC e DbContext kaydýný yaptýk
+builder.Services.ConfigureSqlContext(builder.Configuration);
+
 
 
 var app = builder.Build();
