@@ -27,7 +27,7 @@ namespace Repositories.EFCore
             _context.Set<T>().Where(condition); // trackChanges true ise izle
 
 
-        public IQueryable<T> FingAll(bool trackChanges) =>
+        public IQueryable<T> FindAll(bool trackChanges) =>
             !trackChanges ?
             _context.Set<T>().AsNoTracking() : // trackChanges false ise izleme
             _context.Set<T>(); // trackChanges true ise izle
