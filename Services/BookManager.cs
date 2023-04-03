@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Repositories.Contracts;
 using Services.Contracts;
 
@@ -7,10 +8,11 @@ namespace Services
     public class BookManager : IBookService
     {
         private readonly IRepositoryManager _manager;
-
-        public BookManager(IRepositoryManager manager)
+        private readonly ILoggerService _logger;
+        public BookManager(IRepositoryManager manager, ILoggerService logger)
         {
             _manager = manager;
+            _logger = logger;
         }
 
         public Book CreateABook(Book book)
@@ -22,19 +24,23 @@ namespace Services
 
         public void DeleteABook(int id, bool trackChanges)
         {
-            var exist = _manager.Book.GetABook(id,false);
+            var exist = _manager.Book.GetABook(id, false);
             if (exist == null)
-            {
-                throw new Exception($"book is not absent for {id}");
-
-            }
+                throw new BookNotFoundException(id);
+           
             _manager.Book.DeleteABook(exist);
             _manager.Save();
         }
 
         public Book GetABook(int id, bool trackChanges)
         {
-            return _manager.Book.GetABook(id,trackChanges);
+            var exist = _manager.Book.GetABook(id, trackChanges);
+
+            if (exist == null)
+                throw new BookNotFoundException(id);
+
+            return exist;
+           
         }
 
         public IEnumerable<Book> GetAllBooks(bool trackChanges)
@@ -45,18 +51,12 @@ namespace Services
         public void UpdateABook(int id, Book book, bool trackChanges)
         {
             var exist = _manager.Book.GetABook(id, false);
+
             if (exist == null)
-            {
-                throw new Exception($"book is not absent for {id}");
-            }
-            if(exist.Id != id)
-                throw new Exception($"not matched ids {id}!={exist.Id}");
+                throw new BookNotFoundException(id);
 
-            if(book is null)
-                throw new ArgumentNullException(nameof(book));
-
-            exist.Name=book.Name;
-            exist.Price=book.Price;
+            exist.Name = book.Name;
+            exist.Price = book.Price;
             _manager.Book.UpdateABook(exist);
             _manager.Save();
         }

@@ -13,5 +13,6 @@ namespace BookApi.Extentions
             services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(configuration.GetConnectionString("SqlConnection"))); 
         public static void ConfigureRepositoryManager(this IServiceCollection services) => services.AddScoped<IRepositoryManager,RepositoryManager>();
         public static void ConfigureServiceManager(this IServiceCollection services) => services.AddScoped<IServiceManager, ServiceManager>();
+        public static void ConfigureLoggerService(this IServiceCollection services) => services.AddSingleton<ILoggerService, LoggerManager>();
     }
 }
