@@ -15,6 +15,7 @@ builder.Services.AddControllers(config =>
     config.RespectBrowserAcceptHeader = true; // içerik pazarlýðýna açmak için true yaptýk Accept */* default u bu yani false
     config.ReturnHttpNotAcceptable = true; // istenilen içerik tipi desteklenmediððinde hatayý 406 olarak gönderir
 })
+.AddCustomCsvOutputFormatter()
 .AddXmlDataContractSerializerFormatters() // xml formatýnda çýkýþ verebilmesi için
 .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly). // Presentation katmanýný kullan Controllerlar için
     AddNewtonsoftJson();
