@@ -7,11 +7,17 @@ using Services.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
-LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
+LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 // Add services to the container.
 
-builder.Services.AddControllers().AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly). // Presentation katmanýný kullan Controllerlar için
-    AddNewtonsoftJson() ;
+builder.Services.AddControllers(config =>
+{
+    config.RespectBrowserAcceptHeader = true; // içerik pazarlýðýna açmak için true yaptýk Accept */* default u bu yani false
+    config.ReturnHttpNotAcceptable = true; // istenilen içerik tipi desteklenmediððinde hatayý 406 olarak gönderir
+})
+.AddXmlDataContractSerializerFormatters() // xml formatýnda çýkýþ verebilmesi için
+.AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly). // Presentation katmanýný kullan Controllerlar için
+    AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
