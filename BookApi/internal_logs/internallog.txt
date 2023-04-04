@@ -18,3 +18,6 @@
 2023-04-03 14:26:43.9662 Info Message Template Auto Format enabled
 2023-04-03 14:26:44.8374 Info Registered target NLog.Targets.FileTarget(Name=logfile)
 2023-04-03 14:26:45.1053 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\tesla\OneDrive\Masaüstü\Processing\Asp.NetCoreWebAPI\basics\BookApi\nlog.config
+2023-04-04 10:26:07.0031 Info Message Template Auto Format enabled
+2023-04-04 10:26:07.2249 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-04-04 10:26:07.2785 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\tesla\OneDrive\Masaüstü\Processing\Asp.NetCoreWebAPI\basics\BookApi\nlog.config

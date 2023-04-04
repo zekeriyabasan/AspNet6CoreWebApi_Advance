@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DataTransferObjects;
+using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
@@ -42,16 +43,16 @@ namespace Presentation.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult Update([FromBody] Book book, [FromRoute(Name = "id")] int id)
+        public IActionResult Update([FromBody] BookDtoForUpdate bookDto, [FromRoute(Name = "id")] int id)
         {
-            if (book is null)
+            if (bookDto is null)
                 return BadRequest();
 
-            if (book.Id != id)
-                throw new Exception($"not matched ids {id}!={book.Id}");
+            if (bookDto.Id != id)
+                throw new Exception($"not matched ids {id}!={bookDto.Id}");
 
-            _manager.BookService.UpdateABook(id, book, true);
-            return Ok(book);
+            _manager.BookService.UpdateABook(id, bookDto, true);
+            return Ok(bookDto);
 
         }
 
@@ -72,7 +73,7 @@ namespace Presentation.Controllers
             if (entity is not null)
             {
                 bookPatch.ApplyTo(entity);
-                _manager.BookService.UpdateABook(id, entity, true);
+                _manager.BookService.UpdateABook(id, new BookDtoForUpdate(entity.Id,entity.Name,entity.Price), true);
                 return NoContent();
             }
             return NotFound("not find book!");
