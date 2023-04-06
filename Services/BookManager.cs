@@ -19,11 +19,14 @@ namespace Services
             _mapper = mapper;
         }
 
-        public Book CreateABook(Book book)
+        public BookDto CreateABook(BookDtoForInsertion book)
         {
-            _manager.Book.CreateABook(book);
+            var entity = _mapper.Map<Book>(book);
+
+            _manager.Book.CreateABook(entity);
             _manager.Save();
-            return book;
+
+            return _mapper.Map<BookDto>(entity);
         }
 
         public void DeleteABook(int id, bool trackChanges)
@@ -36,14 +39,14 @@ namespace Services
             _manager.Save();
         }
 
-        public Book GetABook(int id, bool trackChanges)
+        public BookDto GetABook(int id, bool trackChanges)
         {
             var exist = _manager.Book.GetABook(id, trackChanges);
 
             if (exist == null)
                 throw new BookNotFoundException(id);
 
-            return exist;
+            return _mapper.Map<BookDto>(exist);
            
         }
 
@@ -52,6 +55,22 @@ namespace Services
             var books = _manager.Book.GetAllBook(trackChanges);
 
             return _mapper.Map<IEnumerable<BookDto>>(books);
+        }
+
+        public (BookDtoForUpdate bookDtoForUpdate, Book book) GetOneBookForPatch(int id, bool trackChanges)
+        {
+            var book = _manager.Book.GetABook(id, trackChanges);
+
+            if (book is null) throw new BookNotFoundException(id);
+            var bookDtoForUpdate = _mapper.Map<BookDtoForUpdate>(book);
+
+            return (bookDtoForUpdate, book);
+        }
+
+        public void SaveChangesForPatch(BookDtoForUpdate bookDtoForUpdate, Book book)
+        {
+            _mapper.Map(bookDtoForUpdate,book);
+            _manager.Save();
         }
 
         public void UpdateABook(int id, BookDtoForUpdate bookDto, bool trackChanges)

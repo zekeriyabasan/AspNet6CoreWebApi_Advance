@@ -1,5 +1,6 @@
 using BookApi.Extensions;
 using BookApi.Extentions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using Repositories.EFCore;
@@ -19,6 +20,12 @@ builder.Services.AddControllers(config =>
 .AddXmlDataContractSerializerFormatters() // xml formatýnda çýkýþ verebilmesi için
 .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly). // Presentation katmanýný kullan Controllerlar için
     AddNewtonsoftJson();
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true; // model state invalid olduðu zaman badrequest dönsün istiyoruz.
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
