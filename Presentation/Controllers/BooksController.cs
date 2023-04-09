@@ -2,10 +2,12 @@
 using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Services.Contracts;
 
 namespace Presentation.Controllers
 {
+    [ServiceFilter(typeof(LogFilterAttribute))]
     [Route("api/books")]
     [ApiController]
     public class BooksController : ControllerBase
@@ -32,29 +34,20 @@ namespace Presentation.Controllers
             return Ok(book);
         }
 
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] BookDtoForInsertion bookDto)
         {
-            if (bookDto is null)
-                return BadRequest();
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-
             var book = await _manager.BookService.CreateABookAsync(bookDto);
             return StatusCode(201, book);
         }
 
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromBody] BookDtoForUpdate bookDto, [FromRoute(Name = "id")] int id)
         {
-            if (bookDto is null)
-                return BadRequest();
-
             if (bookDto.Id != id)
                 throw new Exception($"not matched ids {id}!={bookDto.Id}");
-
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
 
             await _manager.BookService.UpdateABookAsync(id, bookDto, true);
             return Ok(bookDto);

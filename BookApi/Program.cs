@@ -3,6 +3,7 @@ using BookApi.Extentions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
+using Presentation.ActionFilters;
 using Repositories.EFCore;
 using Services.Contracts;
 
@@ -36,7 +37,10 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
+builder.Services.ConfigureActionFilters();
+
 builder.Services.AddAutoMapper(typeof(Program));
+
 
 var app = builder.Build();
 

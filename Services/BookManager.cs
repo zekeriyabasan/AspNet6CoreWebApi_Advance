@@ -31,20 +31,14 @@ namespace Services
 
         public async Task DeleteABookAsync(int id, bool trackChanges)
         {
-            var exist =await _manager.Book.GetABookAsync(id, false);
-            if (exist == null)
-                throw new BookNotFoundException(id);
+            Book exist = await GetBookByIdExist(id, trackChanges);
 
             _manager.Book.DeleteABook(exist);
             await _manager.SaveAsync();
         }
-
         public async Task<BookDto> GetABookAsync(int id, bool trackChanges)
         {
-            var exist = await _manager.Book.GetABookAsync(id, trackChanges);
-
-            if (exist == null)
-                throw new BookNotFoundException(id);
+            Book exist = await GetBookByIdExist(id,trackChanges);
 
             return _mapper.Map<BookDto>(exist);
 
@@ -59,9 +53,7 @@ namespace Services
 
         public async Task<(BookDtoForUpdate bookDtoForUpdate, Book book)> GetOneBookForPatchAsync(int id, bool trackChanges)
         {
-            var book = await _manager.Book.GetABookAsync(id, trackChanges);
-
-            if (book is null) throw new BookNotFoundException(id);
+            Book book = await GetBookByIdExist(id, trackChanges);
             var bookDtoForUpdate = _mapper.Map<BookDtoForUpdate>(book);
 
             return (bookDtoForUpdate, book);
@@ -75,14 +67,19 @@ namespace Services
 
         public async Task UpdateABookAsync(int id, BookDtoForUpdate bookDto, bool trackChanges)
         {
-            var exist =await _manager.Book.GetABookAsync(id, false);
-
-            if (exist == null)
-                throw new BookNotFoundException(id);
+            Book exist = await GetBookByIdExist(id, trackChanges);
 
             exist = _mapper.Map<Book>(bookDto);
             _manager.Book.UpdateABook(exist);
             await _manager.SaveAsync();
+        }
+
+        private async Task<Book> GetBookByIdExist(int id,bool trackChanges)
+        {
+            var exist = await _manager.Book.GetABookAsync(id, trackChanges);
+            if (exist == null)
+                throw new BookNotFoundException(id);
+            return exist;
         }
     }
 }
