@@ -45,11 +45,13 @@ namespace Services
 
         }
 
-        public async Task<IEnumerable<BookDto>> GetAllBooksAsync(BookParameters bookParameters,bool trackChanges)
+        public async Task<(IEnumerable<BookDto>, MetaData)> GetAllBooksAsync(BookParameters bookParameters,bool trackChanges)
         {
-            var books =await _manager.Book.GetAllBookAsync(bookParameters, trackChanges);
+            var booksWithPaged =await _manager.Book.GetAllBookAsync(bookParameters, trackChanges);
 
-            return _mapper.Map<IEnumerable<BookDto>>(books);
+            var booksDto = _mapper.Map<IEnumerable<BookDto>>(booksWithPaged);
+
+            return (booksDto, booksWithPaged.MetaData);
         }
 
         public async Task<(BookDtoForUpdate bookDtoForUpdate, Book book)> GetOneBookForPatchAsync(int id, bool trackChanges)

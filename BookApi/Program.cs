@@ -38,7 +38,7 @@ builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureActionFilters();
-
+builder.Services.ConfigureCors();
 builder.Services.AddAutoMapper(typeof(Program));
 
 
@@ -61,6 +61,8 @@ if (app.Environment.IsProduction())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 

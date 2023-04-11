@@ -22,11 +22,13 @@ namespace Repositories.EFCore
 
         public async Task<Book> GetABookAsync(int id, bool trackChanges) => await FindByCondition(b => b.Id == id, trackChanges).SingleOrDefaultAsync();
 
-        public async Task<IEnumerable<Book>> GetAllBookAsync(BookParameters bookParameters,bool trackChanges) =>
-            await FindAll(trackChanges).OrderBy(b=>b.Id).
-            Skip((bookParameters.PageNumber-1)*bookParameters.PageSize).// sayfa numarası ve sayfa elaman satısına göre kaç eleman atlamalıyım
-            Take(bookParameters.PageSize).ToListAsync(); // pagesize a göre kaç eleman almalıyız
+        public async Task<PagedList<Book>> GetAllBookAsync(BookParameters bookParameters, bool trackChanges) 
+        {
+            var books = await FindAll(trackChanges).OrderBy(b => b.Id).ToListAsync(); 
 
+            return PagedList<Book>.ToPagedList(books,bookParameters.PageNumber, bookParameters.PageSize);
+        }
+           
         public void UpdateABook(Book entity) => Update(entity);
         
     }
