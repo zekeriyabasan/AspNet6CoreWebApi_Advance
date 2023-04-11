@@ -8,5 +8,8 @@ namespace Entities.RequestFeatures
 {
     public class BookParameters:RequestParameters
     {
+        public uint MinPrice { get; set; } // uint price negatif değer alamaz
+        public uint MaxPrice { get; set; } = 1000;
+        public bool IsValid => MinPrice < MaxPrice;
     }
 }

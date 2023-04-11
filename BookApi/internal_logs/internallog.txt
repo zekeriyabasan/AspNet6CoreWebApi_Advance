@@ -126,3 +126,15 @@
 2023-04-09 22:49:39.1847 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\tesla\OneDrive\Masaüstü\Processing\Asp.NetCoreWebAPI\basics\BookApi\nlog.config
 2023-04-09 22:50:15.1052 Info AppDomain Shutting down. LogFactory closing...
 2023-04-09 22:50:15.1323 Info LogFactory has been closed.
+2023-04-11 11:23:16.9308 Info Message Template Auto Format enabled
+2023-04-11 11:23:17.0575 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-04-11 11:23:17.0950 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\tesla\OneDrive\Masaüstü\Processing\Asp.NetCoreWebAPI\basics\BookApi\nlog.config
+2023-04-11 11:33:53.0311 Info Message Template Auto Format enabled
+2023-04-11 11:33:53.1155 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-04-11 11:33:53.1470 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\tesla\OneDrive\Masaüstü\Processing\Asp.NetCoreWebAPI\basics\BookApi\nlog.config
+2023-04-11 11:35:35.2050 Info Message Template Auto Format enabled
+2023-04-11 11:35:35.7680 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-04-11 11:35:35.8447 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\tesla\OneDrive\Masaüstü\Processing\Asp.NetCoreWebAPI\basics\BookApi\nlog.config
+2023-04-11 11:51:03.1251 Info Message Template Auto Format enabled
+2023-04-11 11:51:03.2703 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-04-11 11:51:03.3166 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\tesla\OneDrive\Masaüstü\Processing\Asp.NetCoreWebAPI\basics\BookApi\nlog.config
