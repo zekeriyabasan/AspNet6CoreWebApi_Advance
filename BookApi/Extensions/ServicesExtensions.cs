@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entities.DataTransferObjects;
+using Microsoft.EntityFrameworkCore;
 using Presentation.ActionFilters;
 using Repositories.Contracts;
 using Repositories.EFCore;
@@ -21,6 +22,10 @@ namespace BookApi.Extentions
             services.AddSingleton<LogFilterAttribute>(); // log için singelton mantıklı
         }
 
+        public static void ConfigureDataShaper(this IServiceCollection services)
+        {
+            services.AddScoped<IDataShaper<BookDto>,DataShaper<BookDto>>();
+        }
         public static void ConfigureCors(this IServiceCollection services) // cors (çapraz kaynaklar arası kaynak paylaşımı) kaynağa erişim izni için
         {
             services.AddCors(options =>

@@ -38,6 +38,7 @@ builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureActionFilters();
+builder.Services.ConfigureDataShaper();
 builder.Services.ConfigureCors();
 builder.Services.AddAutoMapper(typeof(Program));
 
