@@ -48,7 +48,7 @@ namespace Services
 
         }
 
-        public async Task<(IEnumerable<ExpandoObject>, MetaData)> GetAllBooksAsync(BookParameters bookParameters,bool trackChanges)
+        public async Task<(IEnumerable<ShapedEntity>, MetaData)> GetAllBooksAsync(BookParameters bookParameters,bool trackChanges)
         {
             if (!bookParameters.IsValid)
                 throw new PriceOutOfRangeBadRequestException();

@@ -22,6 +22,7 @@ namespace Presentation.Controllers
             _manager = manager;
         }
 
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery]BookParameters bookParameters)
         {
