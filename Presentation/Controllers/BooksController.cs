@@ -22,14 +22,19 @@ namespace Presentation.Controllers
             _manager = manager;
         }
 
+        [HttpHead]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        [HttpGet]
-        public async Task<IActionResult> Get([FromQuery]BookParameters bookParameters)
+        [HttpGet(Name ="GetAllBooksAsync")]
+        public async Task<IActionResult> GetAllBooksAsync([FromQuery] BookParameters bookParameters)
         {
-            var pagedBooksResult = await _manager.BookService.GetAllBooksAsync(bookParameters,false);
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedBooksResult.Item2));
+            var linkParameters = new LinkParameters { BookParameters = bookParameters, HttpContext = HttpContext };
 
-            return Ok(pagedBooksResult.Item1);
+            var result = await _manager.BookService.GetAllBooksAsync(linkParameters, false);
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(result.metaData));
+
+            return result.linkResponse.HasLinks ?
+                Ok(result.linkResponse.LinkedEntities)
+                : Ok(result.linkResponse.ShapedEntities);
         }
 
         [HttpGet("{id:int}")]
@@ -41,8 +46,8 @@ namespace Presentation.Controllers
         }
 
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> Add([FromBody] BookDtoForInsertion bookDto)
+        [HttpPost(Name = "CreateABookAsync")]
+        public async Task<IActionResult> CreateABookAsync([FromBody] BookDtoForInsertion bookDto)
         {
             var book = await _manager.BookService.CreateABookAsync(bookDto);
             return StatusCode(201, book);
@@ -69,13 +74,12 @@ namespace Presentation.Controllers
         }
 
 
-
         [HttpPatch("{id:int}")]
         public async Task<IActionResult> Patch([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<BookDtoForUpdate> bookPatch)
         {
             if (bookPatch is null) return BadRequest();
             //var bookDto = _manager.BookService.GetABook(id, false);
-            var result =await _manager.BookService.GetOneBookForPatchAsync(id, false);
+            var result = await _manager.BookService.GetOneBookForPatchAsync(id, false);
 
             bookPatch.ApplyTo(result.bookDtoForUpdate, ModelState);
 
@@ -83,10 +87,17 @@ namespace Presentation.Controllers
 
             if (!ModelState.IsValid) return UnprocessableEntity(ModelState);
 
-           await _manager.BookService.SaveChangesForPatchAsync(result.bookDtoForUpdate,result.book);
+            await _manager.BookService.SaveChangesForPatchAsync(result.bookDtoForUpdate, result.book);
 
             return NoContent(); // 204
 
+        }
+
+        [HttpOptions]
+        public IActionResult GetBooksOptions()
+        {
+            Response.Headers.Add("Allow", "GET, PUT, POST, PATCH, DELETE, HEAD, OPTIONS");
+            return Ok();
         }
     }
 }

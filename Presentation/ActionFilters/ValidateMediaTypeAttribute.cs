@@ -23,11 +23,11 @@ namespace Presentation.ActionFilters
             {
                 context.Result = new BadRequestObjectResult($"Accept header is missing!"); return;// Accept header eklenmemişse burada kontrolü
             }
-               
+
 
             var mediaType = context.HttpContext.Request.Headers["Accept"].FirstOrDefault();
 
-            if (MediaTypeHeaderValue.TryParse(mediaType, out MediaTypeHeaderValue? outMediaType)) //out(parametre modifier dır) yani outMediaType değeri tryparse sonrası.
+            if (!MediaTypeHeaderValue.TryParse(mediaType, out MediaTypeHeaderValue? outMediaType)) //out(parametre modifier dır) yani outMediaType değeri tryparse sonrası.
             {
                 context.Result = new BadRequestObjectResult($"Media type not present." + $"Please add Accept header required media type"); // istediğimiz tip değilse kontorl
                 return;
@@ -36,3 +36,4 @@ namespace Presentation.ActionFilters
             context.HttpContext.Items.Add("AcceptHeaderMediaType", outMediaType);
         }
     }
+}

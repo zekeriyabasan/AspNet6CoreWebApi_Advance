@@ -49,11 +49,12 @@ namespace BookApi.Extentions
             {
                 var systemTextJsonOutputFormatter = config
                 .OutputFormatters
-                .OfType<SystemTextJsonInputFormatter>()?.FirstOrDefault(); // oftype (linq) bu tipte formatter varsa al
+                .OfType<SystemTextJsonOutputFormatter>()?.FirstOrDefault(); // oftype (linq) bu tipte formatter varsa al
 
                 if (systemTextJsonOutputFormatter is not null)
                 {
                     systemTextJsonOutputFormatter.SupportedMediaTypes.Add("application/vnd.tesla.hateoas+json");
+                    systemTextJsonOutputFormatter.SupportedMediaTypes.Add("application/vnd.tesla.apiroot+json");
                 }
 
                 var xmlOutputFormatter = config
@@ -63,6 +64,7 @@ namespace BookApi.Extentions
                 if (xmlOutputFormatter is not null)
                 {
                     xmlOutputFormatter.SupportedMediaTypes.Add("application/vnd.tesla.hateoas+xml");
+                    xmlOutputFormatter.SupportedMediaTypes.Add("application/vnd.tesla.apiroot+xml");
                 }
             });
         }

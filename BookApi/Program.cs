@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using NLog;
 using Presentation.ActionFilters;
 using Repositories.EFCore;
+using Services;
 using Services.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,8 +20,8 @@ builder.Services.AddControllers(config =>
 })
 .AddCustomCsvOutputFormatter()
 .AddXmlDataContractSerializerFormatters() // xml formatýnda çýkýþ verebilmesi için
-.AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly). // Presentation katmanýný kullan Controllerlar için
-    AddNewtonsoftJson();
+.AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly); // Presentation katmanýný kullan Controllerlar için
+    //AddNewtonsoftJson();
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -42,6 +43,7 @@ builder.Services.ConfigureDataShaper();
 builder.Services.ConfigureCors();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddCustomMediaTypes();
+builder.Services.AddScoped<IBookLinks, BookLinks>();
 
 var app = builder.Build();
 
