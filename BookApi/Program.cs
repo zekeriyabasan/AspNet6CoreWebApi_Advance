@@ -44,7 +44,7 @@ builder.Services.ConfigureCors();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddCustomMediaTypes();
 builder.Services.AddScoped<IBookLinks, BookLinks>();
-
+builder.Services.ConfigureVersionning();
 var app = builder.Build();
 
 // Logger ile middleware yapýlandýrmasý

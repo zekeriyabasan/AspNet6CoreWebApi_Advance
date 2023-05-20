@@ -1,8 +1,10 @@
 ﻿using Entities.DataTransferObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Presentation.ActionFilters;
+using Presentation.Controllers;
 using Repositories.Contracts;
 using Repositories.EFCore;
 using Services;
@@ -66,6 +68,21 @@ namespace BookApi.Extentions
                     xmlOutputFormatter.SupportedMediaTypes.Add("application/vnd.tesla.hateoas+xml");
                     xmlOutputFormatter.SupportedMediaTypes.Add("application/vnd.tesla.apiroot+xml");
                 }
+            });
+        }
+
+        public static void ConfigureVersionning(this IServiceCollection services)
+        {
+            services.AddApiVersioning(options =>
+            {
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+
+                options.Conventions.Controller<BooksController>().HasApiVersion(new ApiVersion(1, 0));
+                options.Conventions.Controller<BooksV2Controller>().HasDeprecatedApiVersion(new ApiVersion(2, 0));
+
             });
         }
     }
