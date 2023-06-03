@@ -1,4 +1,5 @@
 ﻿using Entities.DataTransferObjects;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -27,11 +28,9 @@ namespace BookApi.Extentions
             services.AddScoped<ValidateMediaTypeAttribute>();
         }
 
-        public static void ConfigureDataShaper(this IServiceCollection services)
-        {
-            services.AddScoped<IDataShaper<BookDto>,DataShaper<BookDto>>();
-        }
-        public static void ConfigureCors(this IServiceCollection services) // cors (çapraz kaynaklar arası kaynak paylaşımı) kaynağa erişim izni için
+        public static void ConfigureDataShaper(this IServiceCollection services) =>
+            services.AddScoped<IDataShaper<BookDto>, DataShaper<BookDto>>();
+        public static void ConfigureCors(this IServiceCollection services) // cors  kaynağa erişim izni için
         {
             services.AddCors(options =>
             {
@@ -85,5 +84,21 @@ namespace BookApi.Extentions
 
             });
         }
+
+        public static void ConfigureResponseCaching(this IServiceCollection services) =>
+            services.AddResponseCaching();
+
+        public static void ConfigureHttpCacheHeaders(this IServiceCollection services) =>
+            services.AddHttpCacheHeaders(expressionOpt =>
+            {
+                expressionOpt.MaxAge = 70;
+                //expressionOpt.CacheLocation = CacheLocation.Private;
+                expressionOpt.CacheLocation = CacheLocation.Public;
+            },
+            validationOpt => {
+                //validationOpt.MustRevalidate = true;
+                validationOpt.MustRevalidate = false;
+            });
+
     }
 }

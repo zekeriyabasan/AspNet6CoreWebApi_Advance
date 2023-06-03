@@ -1,6 +1,7 @@
 ﻿using Entities.DataTransferObjects;
 using Entities.Models;
 using Entities.RequestFeatures;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,7 @@ namespace Presentation.Controllers
     [ServiceFilter(typeof(LogFilterAttribute))]
     [Route("api/books")]
     [ApiController]
+    //[ResponseCache(CacheProfileName ="5mins")]
     public class BooksController : ControllerBase
     {
         IServiceManager _manager;
@@ -26,6 +28,8 @@ namespace Presentation.Controllers
         [HttpHead]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         [HttpGet(Name ="GetAllBooksAsync")]
+        //[ResponseCache(Duration =60)]
+        //[HttpCacheExpiration(CacheLocation = CacheLocation.Public,MaxAge =10)] // extension metoddaki config i override ettik
         public async Task<IActionResult> GetAllBooksAsync([FromQuery] BookParameters bookParameters)
         {
             var linkParameters = new LinkParameters { BookParameters = bookParameters, HttpContext = HttpContext };

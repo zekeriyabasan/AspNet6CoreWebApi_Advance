@@ -17,6 +17,7 @@ builder.Services.AddControllers(config =>
 {
     config.RespectBrowserAcceptHeader = true; // içerik pazarlýðýna açmak için true yaptýk Accept */* default u bu yani false
     config.ReturnHttpNotAcceptable = true; // istenilen içerik tipi desteklenmediððinde hatayý 406 olarak gönderir
+    config.CacheProfiles.Add("5mins",new CacheProfile { Duration = 300 });
 })
 .AddCustomCsvOutputFormatter()
 .AddXmlDataContractSerializerFormatters() // xml formatýnda çýkýþ verebilmesi için
@@ -45,6 +46,8 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddCustomMediaTypes();
 builder.Services.AddScoped<IBookLinks, BookLinks>();
 builder.Services.ConfigureVersionning();
+builder.Services.ConfigureResponseCaching();
+builder.Services.ConfigureHttpCacheHeaders();
 var app = builder.Build();
 
 // Logger ile middleware yapýlandýrmasý
@@ -67,6 +70,8 @@ app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
 
+app.UseResponseCaching();
+app.UseHttpCacheHeaders();
 app.UseAuthorization();
 
 app.MapControllers();
