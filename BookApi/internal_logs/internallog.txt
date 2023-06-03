@@ -264,3 +264,6 @@
 2023-05-23 21:22:04.2117 Info Message Template Auto Format enabled
 2023-05-23 21:22:04.4180 Info Registered target NLog.Targets.FileTarget(Name=logfile)
 2023-05-23 21:22:04.4734 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\ZEK\REPOS\WebApiAspNet6\BookApi\nlog.config
+2023-06-03 19:11:23.6167 Info Message Template Auto Format enabled
+2023-06-03 19:11:23.9470 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-06-03 19:11:24.0631 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\ZEK\REPOS\WebApiAspNet6\BookApi\nlog.config

@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using BookApi.Extensions;
 using BookApi.Extentions;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +49,10 @@ builder.Services.AddScoped<IBookLinks, BookLinks>();
 builder.Services.ConfigureVersionning();
 builder.Services.ConfigureResponseCaching();
 builder.Services.ConfigureHttpCacheHeaders();
+builder.Services.AddMemoryCache();
+builder.Services.ConfigureRateLimitingOptions();
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 // Logger ile middleware yapýlandýrmasý
@@ -68,6 +73,7 @@ if (app.Environment.IsProduction())
 
 app.UseHttpsRedirection();
 
+app.UseIpRateLimiting();
 app.UseCors("CorsPolicy");
 
 app.UseResponseCaching();
