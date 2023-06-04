@@ -1,6 +1,8 @@
 ﻿using AspNetCoreRateLimit;
 using Entities.DataTransferObjects;
+using Entities.Models;
 using Marvin.Cache.Headers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -119,9 +121,26 @@ namespace BookApi.Extentions
             });
 
             services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
-            services.AddSingleton<IIpPolicyStore,MemoryCacheIpPolicyStore>();
-            services.AddSingleton<IRateLimitConfiguration,RateLimitConfiguration>();
-            services.AddSingleton<IProcessingStrategy,AsyncKeyLockProcessingStrategy>();
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+        }
+
+        public static void ConfigureIdentity(this IServiceCollection services)
+        {
+            var builder = services.AddIdentity<User, IdentityRole>(opts =>
+            {
+                opts.Password.RequireDigit = true;
+                opts.Password.RequireNonAlphanumeric = false;
+                opts.Password.RequireLowercase = false;
+                opts.Password.RequireUppercase = false;
+                opts.Password.RequiredLength = 10;
+
+                opts.User.RequireUniqueEmail = true;
+
+            }).AddEntityFrameworkStores<RepositoryContext>()
+              .AddDefaultTokenProviders();
+
         }
 
     }
