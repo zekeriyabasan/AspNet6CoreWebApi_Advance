@@ -33,16 +33,24 @@ namespace Services
             _userManager = userManager;
             _configuration = configuration;
         }
+        public async Task<bool> ValidateUser(UserForAuthenticationDto userForAutnDto)
+        {
+            _user = await _userManager.FindByNameAsync(userForAutnDto.UserName);
+            var result = (_user != null && await _userManager.CheckPasswordAsync(_user, userForAutnDto.Password));
 
+            if (!result)
+                _logger.LogWarning($"{nameof(ValidateUser)}  :  Authentication Failed. Username or Password Wrong!");
+
+            return result;
+        }
         public async Task<string> CreateToken()
         {
-            var signinCredentials = GetSigninCredentials();
+            var signingCredentials = GetSigninCredentials();
             var claims = await GetClaims();
-            var tokenOptions = GenerateTokenOptions(signinCredentials,claims);
+            var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
 
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
-
 
         private SigningCredentials GetSigninCredentials()
         {
@@ -60,12 +68,24 @@ namespace Services
             {
                 new Claim(ClaimTypes.Name,_user.UserName)
             };
-            var roles = _userManager.GetRolesAsync(_user);
+            var roles = await _userManager.GetRolesAsync(_user);
             foreach (var role in roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
             return claims;
+        }
+        private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
+        {
+            var jwtSettings = _configuration.GetSection("JwtSettings");
+            var tokenOptions = new JwtSecurityToken(
+                issuer : jwtSettings["ValidIssuer"],
+                audience : jwtSettings["ValidAudience"],
+                claims:claims,
+                expires : DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["Expires"])),
+                signingCredentials: signingCredentials);
+
+            return tokenOptions;
         }
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistrationDto)
         {
@@ -78,16 +98,6 @@ namespace Services
             return result;
 
         }
-
-        public async Task<bool> ValidateUser(UserForAuthenticationDto userForAutnDto)
-        {
-            _user = await _userManager.FindByNameAsync(userForAutnDto.UserName);
-            var result = (_user != null && await _userManager.CheckPasswordAsync(_user,userForAutnDto.Password));
-
-            if (!result)
-                _logger.LogWarning($"{nameof(ValidateUser)}  :  Authentication Failed. Username or Password Wrong!");
-
-            return result;
-        }
+        
     }
 }
