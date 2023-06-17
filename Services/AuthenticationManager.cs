@@ -3,10 +3,15 @@ using Entities.DataTransferObjects;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Win32.SafeHandles;
 using Services.Contracts;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,6 +34,39 @@ namespace Services
             _configuration = configuration;
         }
 
+        public async Task<string> CreateToken()
+        {
+            var signinCredentials = GetSigninCredentials();
+            var claims = await GetClaims();
+            var tokenOptions = GenerateTokenOptions(signinCredentials,claims);
+
+            return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+        }
+
+
+        private SigningCredentials GetSigninCredentials()
+        {
+            var jwtSettings = _configuration.GetSection("JwtSettings");
+            var secretKey = jwtSettings["SecretKey"];
+
+            var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+
+            return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+        }
+
+        private async Task<List<Claim>> GetClaims()
+        {
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name,_user.UserName)
+            };
+            var roles = _userManager.GetRolesAsync(_user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+            return claims;
+        }
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistrationDto)
         {
             var user = _mapper.Map<UserForRegistrationDto,User>(userForRegistrationDto);
