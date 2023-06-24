@@ -40,7 +40,20 @@ namespace Presentation.Controllers
             if(!await _serviceManager.AuthenticationService.ValidateUser(userForAuthDto))
                 return Unauthorized();
 
-            return Ok(new{ token = await _serviceManager.AuthenticationService.CreateToken()});
+            var tokenDto = await _serviceManager.AuthenticationService.CreateToken(populateExp: true);
+
+            return Ok(tokenDto);
+   
         }
+
+        [HttpPost("Refresh")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)
+        {
+            var tokenDtoReturn = await _serviceManager.AuthenticationService.RefreshToken(tokenDto);
+
+            return Ok(tokenDtoReturn);
+        }
+
     }
 }
