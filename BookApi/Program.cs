@@ -32,7 +32,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSwagger();
 
 // EXTENSIONS
 //DB context registration IOC = inversion of control (kontrol ün tersine çevrilmesi)  // IOC e DbContext kaydýný yaptýk
@@ -68,7 +68,10 @@ app.ConfigureExceptionHandler(logger);
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(s=>{
+        s.SwaggerEndpoint("/swagger/v1/swagger.json", "ZEKO-API v1");
+        s.SwaggerEndpoint("/swagger/v2/swagger.json", "ZEKO-API v2");
+    });
 }
 if (app.Environment.IsProduction())
 {
