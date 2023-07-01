@@ -371,3 +371,23 @@
 2023-06-30 22:37:22.3542 Info Message Template Auto Format enabled
 2023-06-30 22:37:22.7098 Info Registered target NLog.Targets.FileTarget(Name=logfile)
 2023-06-30 22:37:22.8070 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\ZEK\REPOS\WebApiAspNet6\BookApi\nlog.config
+2023-07-01 18:50:27.6227 Info Message Template Auto Format enabled
+2023-07-01 18:50:27.7432 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-07-01 18:50:27.7813 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\ZEK\REPOS\WebApiAspNet6\BookApi\nlog.config
+2023-07-01 18:50:30.5133 Info AppDomain Shutting down. LogFactory closing...
+2023-07-01 18:50:30.5317 Info LogFactory has been closed.
+2023-07-01 18:50:32.9372 Info Message Template Auto Format enabled
+2023-07-01 18:50:33.1236 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-07-01 18:50:33.2313 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\ZEK\REPOS\WebApiAspNet6\BookApi\nlog.config
+2023-07-01 18:50:39.7923 Info AppDomain Shutting down. LogFactory closing...
+2023-07-01 18:50:39.8099 Info LogFactory has been closed.
+2023-07-01 18:50:48.6697 Info Message Template Auto Format enabled
+2023-07-01 18:50:48.7369 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-07-01 18:50:48.7873 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\ZEK\REPOS\WebApiAspNet6\BookApi\nlog.config
+2023-07-01 18:50:51.0763 Info AppDomain Shutting down. LogFactory closing...
+2023-07-01 18:50:51.1056 Info LogFactory has been closed.
+2023-07-01 18:51:00.8854 Info Message Template Auto Format enabled
+2023-07-01 18:51:00.9811 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-07-01 18:51:01.0342 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\ZEK\REPOS\WebApiAspNet6\BookApi\nlog.config
+2023-07-01 18:51:06.2557 Info AppDomain Shutting down. LogFactory closing...
+2023-07-01 18:51:06.2743 Info LogFactory has been closed.
