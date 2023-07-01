@@ -11,5 +11,8 @@ namespace Services.Contracts
     {
         Task<IEnumerable<Category>> GetAllCategoriesAsync(bool trackChanges);
         Task<Category> GetACategoryById(int id, bool trackChanges);
+
+
+        
     }
 }

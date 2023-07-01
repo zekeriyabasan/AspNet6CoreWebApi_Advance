@@ -391,3 +391,15 @@
 2023-07-01 18:51:01.0342 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\ZEK\REPOS\WebApiAspNet6\BookApi\nlog.config
 2023-07-01 18:51:06.2557 Info AppDomain Shutting down. LogFactory closing...
 2023-07-01 18:51:06.2743 Info LogFactory has been closed.
+2023-07-01 19:10:54.4608 Info Message Template Auto Format enabled
+2023-07-01 19:10:54.8168 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-07-01 19:10:54.9129 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\ZEK\REPOS\WebApiAspNet6\BookApi\nlog.config
+2023-07-01 19:13:20.1479 Info Message Template Auto Format enabled
+2023-07-01 19:13:20.3544 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-07-01 19:13:20.4057 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\ZEK\REPOS\WebApiAspNet6\BookApi\nlog.config
+2023-07-01 19:13:59.9061 Info Message Template Auto Format enabled
+2023-07-01 19:14:00.1569 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-07-01 19:14:00.2304 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\ZEK\REPOS\WebApiAspNet6\BookApi\nlog.config
+2023-07-01 19:24:28.2037 Info Message Template Auto Format enabled
+2023-07-01 19:24:28.4179 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2023-07-01 19:24:28.4649 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=D:\ZEK\REPOS\WebApiAspNet6\BookApi\nlog.config
