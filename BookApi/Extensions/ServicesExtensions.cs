@@ -180,7 +180,14 @@ namespace BookApi.Extentions
         {
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v1", new OpenApiInfo { Title = "ZEKO-API", Version = "v1" });
+                s.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "ZEKO-API",
+                    Version = "v1",
+                    Description = "Educate advance ASP. NET WEB API",
+                    TermsOfService = new Uri("https://github.com/zekeriyabasan/AspNet6CoreWebApi_Advance"),
+                    Contact = new OpenApiContact { Name = "Zekeriya BASAN", Email = "zekeriya@gmail.com", Url = new Uri ("https://github.com/zekeriyabasan/AspNet6CoreWebApi_Advance") }
+                });
                 s.SwaggerDoc("v2", new OpenApiInfo { Title = "ZEKO-API", Version = "v2" });
 
                 s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
