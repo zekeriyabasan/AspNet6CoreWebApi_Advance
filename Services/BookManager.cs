@@ -16,16 +16,20 @@ namespace Services
         private readonly ILoggerService _logger;
         private readonly IMapper _mapper;
         private readonly IBookLinks _bookLinks;
-        public BookManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper, IBookLinks bookLinks)
+        private readonly ICategoryService _categoryService;
+        public BookManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper, IBookLinks bookLinks, ICategoryService categoryService)
         {
             _manager = manager;
             _logger = logger;
             _mapper = mapper;
             _bookLinks = bookLinks;
+            _categoryService = categoryService;
         }
 
         public async Task<BookDto> CreateABookAsync(BookDtoForInsertion book)
         {
+            await _categoryService.GetACategoryById(book.CategoryId, false);
+            
             var entity = _mapper.Map<Book>(book);
 
             _manager.Book.CreateABook(entity);
