@@ -15,6 +15,7 @@ namespace Services.Contracts
     {
         Task<(LinkResponse linkResponse, MetaData metaData)> GetAllBooksAsync(LinkParameters linkParameters,bool trackChanges);
         Task<List<Book>> GetAllBooksAsync(bool trackChanges);
+        Task<IEnumerable<Book>> GetAllBookAsyncWithDetailsAsync(bool trackChanges);
         Task<BookDto> GetABookAsync(int id, bool trackChanges);
         Task<BookDto> CreateABookAsync(BookDtoForInsertion book);
         Task UpdateABookAsync(int id, BookDtoForUpdate book, bool trackChanges);

@@ -44,6 +44,12 @@ namespace Presentation.Controllers
                 Ok(result.linkResponse.LinkedEntities)
                 : Ok(result.linkResponse.ShapedEntities);
         }
+        [Authorize]
+        [HttpGet("withDetails")]
+        public async Task<IActionResult> GetAllBooksWithDetailsAsync()
+        {
+            return Ok(await _manager.BookService.GetAllBookAsyncWithDetailsAsync(false));
+        }
 
         [Authorize]
         [HttpGet("{id:int}")]

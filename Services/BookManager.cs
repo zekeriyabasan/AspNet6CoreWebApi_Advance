@@ -49,6 +49,13 @@ namespace Services
 
         }
 
+        public async Task<IEnumerable<Book>> GetAllBookAsyncWithDetailsAsync(bool trackChanges)
+        {
+            return await _manager
+                .Book
+                .GetAllBookAsyncWithDetailsAsync(trackChanges); 
+        }
+
         public async Task<(LinkResponse linkResponse, MetaData metaData)> GetAllBooksAsync(LinkParameters linkParameters,bool trackChanges)
         {
             if (!linkParameters.BookParameters.IsValid)

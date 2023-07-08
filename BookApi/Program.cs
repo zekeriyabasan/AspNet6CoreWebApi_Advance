@@ -22,8 +22,9 @@ builder.Services.AddControllers(config =>
 })
 .AddCustomCsvOutputFormatter()
 .AddXmlDataContractSerializerFormatters() // xml formatýnda çýkýþ verebilmesi için
-.AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly); // Presentation katmanýný kullan Controllerlar için
-    //AddNewtonsoftJson();
+.AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly) // Presentation katmanýný kullan Controllerlar için
+.AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); // Category dolsun istedik ama hata vermiþti
+
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
